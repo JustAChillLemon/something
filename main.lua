@@ -1,6 +1,7 @@
 require 'player'
 require 'button'
 require 'pots/basicpot'
+require 'plants/grape'
 
 function love.load()
   love.window.setMode(1920, 1080)
@@ -8,8 +9,10 @@ function love.load()
   b = button.new(30, 30, 20, 20)
   love.keyboard.pressed = {}
   
-  pots = {p1 = basicpot.new(32), p2 = basicpot.new(276), p3 = basicpot.new(520),
-    p4 = basicpot.new(1180), p5 = basicpot.new(1424), p6 = basicpot.new(1668)}
+  pots = {basicpot.new(1), basicpot.new(2), basicpot.new(3),
+    basicpot.new(4), basicpot.new(5), basicpot.new(6)}
+  pots[1]:addPlant(grape.new(pots[1].x, true))
+  pots[6]:addPlant(grape.new(pots[6].x, false))
 end
 
 function love.keypressed(key) 
@@ -22,12 +25,10 @@ function love.keyreleased(key)
   love.keyboard.pressed[key] = false 
 end
 function love.update(dt)
-  gamer:update(dt)
   b:update(dt)
 end
 
 function love.draw()
-  gamer:render()
   b:render()
   for k, v in pairs(pots) do
     v:render()

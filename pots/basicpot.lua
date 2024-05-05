@@ -6,11 +6,10 @@ setmetatable(basicpot, basepot)
 
 local sprite = love.graphics.newImage("sprites/pots/basicpot.png")
 
-function basicpot.new(x)
+function basicpot.new(pos)
   local instance = setmetatable({}, basicpot)
-  instance.x = x
-  instance.y = 0
-  instance.pos = 0
+  instance.pos = pos
+  basepot.assignX(instance, pos)
   instance.baseHealth = 100
   instance.currentHealth = instance.baseHealth
   instance.type = "basic"
