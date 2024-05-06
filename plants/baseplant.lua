@@ -14,5 +14,6 @@ function baseplant.new() end
 function baseplant:effects() end
 function baseplant:update(dt) end
 function baseplant:render() 
-  love.graphics.draw(self.sprite, self.ally and self.x + 220 or self.x, self.y, 0, self.ally and -1 or 1, 1)
+  love.graphics.draw(self.sprite, self.ally and self.x + 220 or self.x,
+    self.y, 0, self.ally and -1 or 1, 1)
 end

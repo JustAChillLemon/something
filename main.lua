@@ -5,14 +5,14 @@ require 'plants/grape'
 
 function love.load()
   love.window.setMode(1920, 1080)
-  gamer = player.new()
+  p1 = player.new()
   b = button.new(30, 30, 20, 20)
   love.keyboard.pressed = {}
   
-  pots = {basicpot.new(1), basicpot.new(2), basicpot.new(3),
-    basicpot.new(4), basicpot.new(5), basicpot.new(6)}
-  pots[1]:addPlant(grape.new(pots[1].x, true))
-  pots[6]:addPlant(grape.new(pots[6].x, false))
+  pots = { basicpot.new(4), basicpot.new(5), basicpot.new(6)}
+  p1.pots[1]:addPlant(grape.new(p1.pots[1].x, true))
+  p1.pots[2]:addPlant(grape.new(p1.pots[2].x, true))
+  pots[3]:addPlant(grape.new(pots[3].x, false))
 end
 
 function love.keypressed(key) 
@@ -30,7 +30,10 @@ end
 
 function love.draw()
   b:render()
-  for k, v in pairs(pots) do
+  --for k, v in pairs(pots) do
+    --v:render()
+  --end
+  for k, v in pairs(p1.pots) do
     v:render()
   end
 end

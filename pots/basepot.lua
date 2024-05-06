@@ -10,7 +10,7 @@ basepot.pos = nil -- int, pot's position on the row of pots fighting
 basepot.currentHealth = nil -- int, pot's current health
 basepot.baseHealth = nil -- int, pot's max hp
 basepot.type = nil -- string, pot's type
-basepot.plants = {} -- table, plants currently in the pot
+--basepot.plants = {} -- table, plants currently in the pot
 basepot.maxPlants = nil -- int, max plants that can go in plants
 basepot.currentPlants = 0
 basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
@@ -26,7 +26,18 @@ local ENEMY_POS_1_X = 1180
 local ENEMY_POS_2_X = 1424
 local ENEMY_POS_3_X = 1668
 
-function basepot.new(pos) end
+function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
+  instance.pos = pos
+  basepot.assignX(instance, pos)
+  instance.baseHealth = baseHealth
+  instance.currentHealth = baseHealth
+  instance.type = potType
+  instance.sprite = sprite
+  instance.maxPlants = maxPlants
+  instance.plants = {}
+  return instance
+end
+
 function basepot:addPlant(plant)
   if self.currentPlants + 1 > self.maxPlants then
     return "error"
@@ -46,8 +57,10 @@ end
 function basepot:update(dt) end
 function basepot:render()
   love.graphics.draw(self.sprite, self.x, POT_Y)
+  a = 0
   for k, v in pairs(self.plants) do
     v:render()
+    a = a + 1
   end
   love.graphics.print(tostring(self.currentHealth), self.x, POT_Y + 20)
 end
