@@ -1,5 +1,7 @@
 require 'soil/startersoil'
 require 'plants/baseplant'
+require 'globals'
+
 
 basepot = {}
 basepot.__index = basepot
@@ -16,15 +18,21 @@ basepot.currentPlants = 0
 basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
 basepot.sprite = nil -- image, the pot's sprite
 
-local POT_Y = 810 -- all pots of the same type will be rendered at the same y, but currently only one type of pot so simply naming it pot_y for now
 
-local PLAYER_POS_1_X = 32
-local PLAYER_POS_2_X = 276
-local PLAYER_POS_3_X = 520
+print(love.window.getMode())
 
-local ENEMY_POS_1_X = 1180
-local ENEMY_POS_2_X = 1424
-local ENEMY_POS_3_X = 1668
+local POT_WIDTH = gX_DIALATION * 220
+local POT_GAP = gX_DIALATION * 24
+
+local PLAYER_POS_1_X = 32 * gX_DIALATION
+local PLAYER_POS_2_X = (PLAYER_POS_1_X + POT_WIDTH + POT_GAP)
+local PLAYER_POS_3_X = (PLAYER_POS_2_X + POT_WIDTH + POT_GAP) 
+
+local ENEMY_POS_1_X = (1180/1920) * love.graphics.getWidth()
+local ENEMY_POS_2_X = (1424/1920) * love.graphics.getWidth()
+local ENEMY_POS_3_X = (1668/1920) * love.graphics.getWidth()
+
+local POT_Y = (810 * gY_DIALATION) -- all pots of the same type will be rendered at the same y, but currently only one type of pot so simply naming it pot_y for now
 
 function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.pos = pos
@@ -56,11 +64,9 @@ end
 
 function basepot:update(dt) end
 function basepot:render()
-  love.graphics.draw(self.sprite, self.x, POT_Y)
-  a = 0
+  love.graphics.draw(self.sprite, self.x, POT_Y, 0, gX_DIALATION, gY_DIALATION)
   for k, v in pairs(self.plants) do
     v:render()
-    a = a + 1
   end
   love.graphics.print(tostring(self.currentHealth), self.x, POT_Y + 20)
 end
