@@ -1,7 +1,7 @@
 button = {}
 button.__index = button
 
-function button.new(x, y, width, height) 
+function button.new(x, y, width, height, behavior) 
   instance = setmetatable({}, button)
   instance.x = x
   instance.y = y
@@ -10,6 +10,7 @@ function button.new(x, y, width, height)
   instance.cd = 0
   instance.color = 234
   instance.word = 0
+  instance.behavior = behavior
   return instance
 end
 --
@@ -45,5 +46,5 @@ end
 --
 
 function button:click()
-  print("heyyyyyyy")
+  self.behavior()
 end

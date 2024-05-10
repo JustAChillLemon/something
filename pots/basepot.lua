@@ -7,7 +7,6 @@ basepot = {}
 basepot.__index = basepot
 
 basepot.x = nil -- int, pot's drawing cord
-basepot.y = nil -- int, pot's drawing cord
 basepot.pos = nil -- int, pot's position on the row of pots fighting
 basepot.currentHealth = nil -- int, pot's current health
 basepot.baseHealth = nil -- int, pot's max hp
@@ -17,9 +16,7 @@ basepot.maxPlants = nil -- int, max plants that can go in plants
 basepot.currentPlants = 0
 basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
 basepot.sprite = nil -- image, the pot's sprite
-
-
-print(love.window.getMode())
+basepot.alive = true
 
 local POT_WIDTH = gX_DIALATION * 220
 local POT_GAP = gX_DIALATION * 24
@@ -28,9 +25,9 @@ local PLAYER_POS_1_X = 32 * gX_DIALATION
 local PLAYER_POS_2_X = (PLAYER_POS_1_X + POT_WIDTH + POT_GAP)
 local PLAYER_POS_3_X = (PLAYER_POS_2_X + POT_WIDTH + POT_GAP) 
 
-local ENEMY_POS_1_X = (1180/1920) * love.graphics.getWidth()
-local ENEMY_POS_2_X = (1424/1920) * love.graphics.getWidth()
-local ENEMY_POS_3_X = (1668/1920) * love.graphics.getWidth()
+local ENEMY_POS_1_X = (love.graphics.getWidth() - POT_WIDTH - (32 * gX_DIALATION))
+local ENEMY_POS_2_X = ENEMY_POS_1_X - POT_GAP - POT_WIDTH
+local ENEMY_POS_3_X = ENEMY_POS_2_X - POT_GAP - POT_WIDTH
 
 local POT_Y = (810 * gY_DIALATION) -- all pots of the same type will be rendered at the same y, but currently only one type of pot so simply naming it pot_y for now
 
@@ -60,17 +57,33 @@ end
 
 function basepot:attacked(amount)
   self.currentHealth = self.currentHealth - amount
+  if self.currentHealth <= 0 then
+    self.alive = false
+  end
 end
 
-function basepot:update(dt) end
+function basepot:update(dt) 
+  for key, plant in pairs(self.plants) do
+    plant:update(dt)
+  end
+end
 function basepot:render()
   love.graphics.draw(self.sprite, self.x, POT_Y, 0, gX_DIALATION, gY_DIALATION)
   for k, v in pairs(self.plants) do
     v:render()
   end
-  love.graphics.print(tostring(self.currentHealth), self.x, POT_Y + 20)
+  love.graphics.print(tostring(self.currentHealth), self.x, POT_Y)
 end
-
+ 
 function basepot.assignX(instance, pos)
   instance.x =  (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X)
+end
+function basepot:changeTarget(pot) 
+  for key, plant in pairs(self.plants) do
+    plant.target = pot
+  end
+end
+
+function basepot:out() 
+  return "I am " .. tostring(self.pos)
 end
