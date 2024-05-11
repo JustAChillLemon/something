@@ -1,5 +1,6 @@
 require 'states.titlestate'
 require 'states.shopstate'
+require 'states.fightstate'
 
 StateMachine = {}
 StateMachine.__index = StateMachine
@@ -31,9 +32,15 @@ function StateMachine:changeState(newState)
     self.current = TitleState.new()
   elseif newState == 'shop' then 
     self.current = ShopState.new()
+  elseif newState == 'fight' then
+    self.current = FightState.new()
   end
+  
   self.stateName = newState
   print(newState)
   self.current:enter()
 end
 
+
+gSTATE_MACHINE = StateMachine.new()
+gSTATE_MACHINE:changeState("title")

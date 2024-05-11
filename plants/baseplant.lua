@@ -22,6 +22,7 @@ function baseplant:update(dt)
   self.timer = self.timer + dt
   
   if self.timer >= self.cd then
+    print(tostring(self.timer))
     self.timer = self.timer % self.cd 
     self:attackPot()
   end

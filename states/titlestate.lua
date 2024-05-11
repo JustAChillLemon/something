@@ -10,15 +10,15 @@ local background = love.graphics.newImage("sprites/titlescreen.png")
 function TitleState.new()
   local instance = setmetatable({}, TitleState)
   instance.name = 'title' -- name of state
-  instance.buttons = {button.new(100, 100, 100, 100, 
+  instance.buttons = {button.new(CENTER_X, 300, 
         function() 
             gSTATE_MACHINE:changeState('shop')
-        end
+        end, "PLAY"
       ), 
-      button.new(200, 200, 100, 100, 
+      button.new(CENTER_X, 500, 
         function()
           love.event.quit()
-        end
+        end, "QUIT"
       )
       }
   return instance
