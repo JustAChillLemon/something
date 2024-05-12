@@ -37,7 +37,6 @@ function StateMachine:changeState(newState)
   end
   
   self.stateName = newState
-  print(newState)
   self.current:enter()
 end
 

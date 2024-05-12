@@ -16,13 +16,12 @@ local PLANT_WIDTH = 220 * gX_DIALATION
 function baseplant.new() end
 function baseplant:effects() end
 function baseplant:attackPot() 
-  self.target:attacked(self.attack)
+    self.target:attacked(self.attack)
 end
 function baseplant:update(dt) 
   self.timer = self.timer + dt
   
   if self.timer >= self.cd then
-    print(tostring(self.timer))
     self.timer = self.timer % self.cd 
     self:attackPot()
   end

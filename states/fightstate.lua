@@ -8,25 +8,23 @@ setmetatable(FightState, BaseState)
 
 local background = love.graphics.newImage("sprites/fightscreen.png")
 
-enemy = nil
-
 function FightState.new() 
   local instance = setmetatable({}, FightState)
   instance.name = 'fight'
+  instance.enemy = player:new(false)
   return instance
-end
-
-function FightState:enter()
-  enemy = player:new(false)
-  player:changePot(enemy.firstMostPot)
-  enemy:changePot(player.firstMostPot)
 end
 function FightState:render()
   love.graphics.draw(background, 0, 0, 0, gX_DIALATION, gY_DIALATION)
   user:render()
-  enemy:render()
+  self.enemy:render()
 end
 function FightState:update(dt)
-  enemy:update(dt)
-  player:update(dt)
+  self.enemy:update(dt, self.enemy)
+  user:update(dt, user)
+end
+
+function FightState:enter()
+  user:changePot(self.enemy.frontMostPot)
+  enemy:changePot(user.frontMostPot)
 end

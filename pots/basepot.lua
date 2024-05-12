@@ -40,6 +40,7 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.sprite = sprite
   instance.maxPlants = maxPlants
   instance.plants = {}
+  instance.alive = true
   return instance
 end
 
