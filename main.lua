@@ -18,12 +18,12 @@ end
 
 function love.update(dt)
   gSTATE_MACHINE:update(dt)
-  love.mouse.pressed = {}
+  love.mouse.released = {}
 end
 
 function love.draw()
   gSTATE_MACHINE:render()
 end
 function love.mousereleased(x, y, button)
-  love.mouse.pressed[button] = true
+  love.mouse.released[button] = true
 end

@@ -75,7 +75,7 @@ function basepot:update(dt)
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
-    if isClicked(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
+    if isHeld(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
       self.heldDown = true
     end
       

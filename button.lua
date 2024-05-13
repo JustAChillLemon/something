@@ -42,10 +42,19 @@ end
 --
 
 function isClicked(x, y, w, h, key) 
-  return love.mouse.getX() >= x and love.mouse.getX() <= x + w and
-  love.mouse.getY() >= y and love.mouse.getY() <= y + h and love.mouse.pressed[key]
+  return isInClickZone(x, y, w, h) and love.mouse.released[key]
 end
 --
+
+function isHeld(x, y, w, h, key)
+  return isInClickZone(x, y, w, h) and love.mouse.isDown(key)
+end
+
+function isInClickZone(x, y, h, w)
+  return love.mouse.getX() >= x and love.mouse.getX() <= x + w and love.mouse.getY() >= y and love.mouse.getY() <= y + h
+end
+--
+
 
 function button:render()
   love.graphics.setColor(self.color/255, 32/255, 23/255, 1)

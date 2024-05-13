@@ -4,5 +4,5 @@ gY_DIALATION = love.graphics.getHeight() / 1080
 CENTER_X = love.graphics.getWidth() / 2
 
 function love.load()
-  love.mouse.pressed = {}
+  love.mouse.released = {}
 end
