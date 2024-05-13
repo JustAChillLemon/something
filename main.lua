@@ -19,6 +19,7 @@ end
 function love.update(dt)
   gSTATE_MACHINE:update(dt)
   love.mouse.released = {}
+  love.mouse.clicked = {}
 end
 
 function love.draw()
@@ -26,4 +27,7 @@ function love.draw()
 end
 function love.mousereleased(x, y, button)
   love.mouse.released[button] = true
+end
+function love.mousepressed(x, y, button)
+  love.mouse.clicked[button] = true
 end

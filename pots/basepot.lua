@@ -44,6 +44,8 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.alive = true
   instance.y = POT_Y
   instance.heldDown = false
+  instance.xDiff = 0
+  instance.yDiff = 0
   return instance
 end
 
@@ -75,8 +77,10 @@ function basepot:update(dt)
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
-    if isHeld(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
+    if isClicked(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
       self.heldDown = true
+      self.xDiff = love.mouse.getX() - self.x
+      self.yDiff = love.mouse.getY() - self.y
     end
       
     if self.heldDown then
@@ -85,17 +89,19 @@ function basepot:update(dt)
         self.y = POT_Y
         basepot.assignX(self, self.pos)
       else 
-        self.x, self.y = love.mouse.getPosition()
+        self.x = love.mouse.getX() - self.xDiff
+        self.y = love.mouse.getY() - self.yDiff
       end
     end
   end
 end
 function basepot:render()
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
+  love.graphics.rectangle('line', self.x, self.y, POT_WIDTH, POT_HEIGHT)
   for k, v in pairs(self.plants) do
     v:render()
   end
-  love.graphics.print(tostring(self.currentHealth), self.x, POT_Y)
+  love.graphics.print(tostring(self.currentHealth), self.x, self.y)
 end
  
 function basepot.assignX(instance, pos)

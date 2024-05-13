@@ -5,4 +5,5 @@ CENTER_X = love.graphics.getWidth() / 2
 
 function love.load()
   love.mouse.released = {}
+  love.mouse.clicked = {}
 end
