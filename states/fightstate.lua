@@ -20,11 +20,9 @@ function FightState:render()
   self.enemy:render()
 end
 function FightState:update(dt)
-  self.enemy:update(dt, self.enemy)
-  user:update(dt, user)
-end
-
-function FightState:enter()
-  user:changePot(self.enemy.frontMostPot)
-  self.enemy:changePot(user.frontMostPot)
+  self.enemy:update(dt, user)
+  user:update(dt, self.enemy)
+  if self.enemy.lost or user.lost then
+    gSTATE_MACHINE:changeState('shop')
+  end
 end

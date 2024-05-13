@@ -19,6 +19,7 @@ basepot.sprite = nil -- image, the pot's sprite
 basepot.alive = true
 
 local POT_WIDTH = gX_DIALATION * 220
+local POT_HEIGHT = gY_DIALATION * 250
 local POT_GAP = gX_DIALATION * 24
 
 local PLAYER_POS_1_X = 32 * gX_DIALATION
@@ -41,6 +42,8 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.maxPlants = maxPlants
   instance.plants = {}
   instance.alive = true
+  instance.y = POT_Y
+  instance.heldDown = false
   return instance
 end
 
@@ -65,12 +68,29 @@ function basepot:attacked(amount)
 end
 
 function basepot:update(dt) 
-  for key, plant in pairs(self.plants) do
-    plant:update(dt)
+  --if gSTATE_MACHINE.stateName == 'fight' then
+    for key, plant in pairs(self.plants) do
+      plant:update(dt)
+    end
+ -- end
+  --[[
+  if gSTATE_MACHINE.stateName == 'shop' then
+    if inClickZone(self.x, POT_Y, POT_WIDTH, POT_HEIGHT) and love.mouse.isDown(1) then
+      self.heldDown = true
+    end
+    
+    if self.heldDown then
+      if not love.mouse.isDown(1) then
+        self.heldDown = false
+      else 
+        self.x, self.y = love.mouse.getPosition()
+      end
+    end
   end
+  ]]
 end
 function basepot:render()
-  love.graphics.draw(self.sprite, self.x, POT_Y, 0, gX_DIALATION, gY_DIALATION)
+  love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
   for k, v in pairs(self.plants) do
     v:render()
   end

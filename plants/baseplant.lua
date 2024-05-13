@@ -19,11 +19,13 @@ function baseplant:attackPot()
     self.target:attacked(self.attack)
 end
 function baseplant:update(dt) 
-  self.timer = self.timer + dt
-  
-  if self.timer >= self.cd then
-    self.timer = self.timer % self.cd 
-    self:attackPot()
+  if gSTATE_MACHINE.stateName == 'fight' then
+    self.timer = self.timer + dt
+    
+    if self.timer >= self.cd then
+      self.timer = self.timer % self.cd 
+      self:attackPot()
+    end
   end
 end
 function baseplant:render() 
@@ -31,9 +33,5 @@ function baseplant:render()
     self.y, 0, (self.ally and -1 or 1) * gX_DIALATION, 1 * gY_DIALATION)
 end
 function baseplant:changeTarget(pot)
-  print("TARGET START")
-  print(self.target)
   self.target = pot
-  print(self.target:out())
-  print ("TARGET END")
 end

@@ -30,4 +30,5 @@ function ShopState:update(dt)
   for key, button in pairs(self.buttons) do
     button:update(dt)
   end
+  user:update(dt)
 end
