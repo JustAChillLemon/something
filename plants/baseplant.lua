@@ -30,3 +30,10 @@ function baseplant:render()
   love.graphics.draw(self.sprite, self.ally and self.x + PLANT_WIDTH or self.x,
     self.y, 0, (self.ally and -1 or 1) * gX_DIALATION, 1 * gY_DIALATION)
 end
+function baseplant:changeTarget(pot)
+  print("TARGET START")
+  print(self.target)
+  self.target = pot
+  print(self.target:out())
+  print ("TARGET END")
+end

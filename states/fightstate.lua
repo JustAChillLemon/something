@@ -26,5 +26,5 @@ end
 
 function FightState:enter()
   user:changePot(self.enemy.frontMostPot)
-  enemy:changePot(user.frontMostPot)
+  self.enemy:changePot(user.frontMostPot)
 end

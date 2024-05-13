@@ -20,16 +20,26 @@ function player:render()
 end
 
 function player:update(dt, enemy) 
-  if gSTATE_MACHINE.stateName == 'fight' then
+  --[[if gSTATE_MACHINE.stateName == 'fight' then
     if not (self.frontMostPot.alive) then -- front most pot is supposed to be targeted by enemy pots
-      self.frontMostPotIdx = self.frontMostPotIdx - 1 > 0 and self.frontMostPotIdx - 1 or 1
+      self.frontMostPotIdx = self.frontMostPotIdx - 1
       self.frontMostPot = self.pots[self.frontMostPotIdx]
-      print(self.frontMostPotIdx)
-      print(self.frontMostPot)
-      enemy:changePot(self.frontMostPot)
+      if enemy:changePot(self.frontMostPot) then 
+        print("I EXIST")
+      end
     end
     for key, pot in pairs(self.pots) do
       pot:update(dt)
+    end
+  end]]
+  
+  if gSTATE_MACHINE.stateName == 'fight' then
+    local changePot = enemy.frontMostPot ~= self.pots[1].target
+    for key, pot in pairs(self.pots) do
+      pot:update(dt)
+      if changePot then
+        pot:changeTarget(enemy.frontMostPot)
+      end
     end
   end
 end
@@ -37,5 +47,5 @@ function player:changePot(target)
   for key, pot in pairs(self.pots) do
     pot:changeTarget(target)
   end
-  return "called"
+  return true
 end

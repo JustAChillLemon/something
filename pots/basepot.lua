@@ -50,6 +50,7 @@ function basepot:addPlant(plant)
   end
   table.insert(self.plants, plant)
   self.currentPlants = self.currentPlants + 1
+
 end
 
 function basepot:changeSoil(soil) 
@@ -81,7 +82,7 @@ function basepot.assignX(instance, pos)
 end
 function basepot:changeTarget(pot) 
   for key, plant in pairs(self.plants) do
-    plant.target = pot
+    plant:changeTarget(pot)
   end
 end
 
