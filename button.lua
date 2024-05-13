@@ -30,7 +30,7 @@ end
 function button:update(dt) 
   if self.cd <= 0 then
     self.color = 234
-    if love.mouse.isDown(1) and inClickZone(self.x, self.y, WIDTH, HEIGHT) then
+    if isClicked(self.x, self.y, WIDTH, HEIGHT, 1) then
       self:click()
       self.cd = 2
       self.color = 100
@@ -41,9 +41,9 @@ function button:update(dt)
 end
 --
 
-function inClickZone(x, y, w, h) 
+function isClicked(x, y, w, h, key) 
   return love.mouse.getX() >= x and love.mouse.getX() <= x + w and
-  love.mouse.getY() >= y and love.mouse.getY() <= y + h
+  love.mouse.getY() >= y and love.mouse.getY() <= y + h and love.mouse.pressed[key]
 end
 --
 

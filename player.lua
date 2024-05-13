@@ -20,7 +20,7 @@ function player:render()
 end
 
 function player:update(dt, enemy) 
-  if gSTATE_MACHINE.stateName == 'fight' then
+  if gSTATE_MACHINE.stateName == 'fight' and enemy ~= nil then
     if not self.frontMostPot.alive then 
       if self.frontMostPot == self.pots[1] then
         self.lost = true
@@ -28,12 +28,13 @@ function player:update(dt, enemy)
       self.frontMostPotIdx = self.frontMostPotIdx > 1 and self.frontMostPotIdx - 1 or 1 
       self.frontMostPot = self.pots[self.frontMostPotIdx]
     end
-    local changePot = enemy ~= nil and enemy.frontMostPot ~= self.pots[1].target
-    for key, pot in pairs(self.pots) do
-      pot:update(dt)
-      if changePot then
-        pot:changeTarget(enemy.frontMostPot)
-      end
+    self.changePot = enemy.frontMostPot ~= (self.pots[1].plants[1] ~= nil and self.pots[1].plants[1].target)
+  end
+  
+  for key, pot in pairs(self.pots) do
+    pot:update(dt)
+    if self.changePot then
+      pot:changeTarget(enemy.frontMostPot)
     end
   end
 end

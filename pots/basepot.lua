@@ -68,26 +68,27 @@ function basepot:attacked(amount)
 end
 
 function basepot:update(dt) 
-  --if gSTATE_MACHINE.stateName == 'fight' then
+  if gSTATE_MACHINE.stateName == 'fight' then
     for key, plant in pairs(self.plants) do
       plant:update(dt)
     end
- -- end
-  --[[
+  end
+  
   if gSTATE_MACHINE.stateName == 'shop' then
-    if inClickZone(self.x, POT_Y, POT_WIDTH, POT_HEIGHT) and love.mouse.isDown(1) then
+    if isClicked(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
       self.heldDown = true
     end
-    
+      
     if self.heldDown then
       if not love.mouse.isDown(1) then
         self.heldDown = false
+        self.y = POT_Y
+        basepot.assignX(self, self.pos)
       else 
         self.x, self.y = love.mouse.getPosition()
       end
     end
   end
-  ]]
 end
 function basepot:render()
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
