@@ -91,6 +91,10 @@ function basepot:update(dt)
       else 
         self.x = love.mouse.getX() - self.xDiff
         self.y = love.mouse.getY() - self.yDiff
+        for key, plant in pairs(self.plants) do
+          plant.x = self.x
+          plant.y = self.y - 395
+        end
       end
     end
   end

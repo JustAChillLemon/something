@@ -10,12 +10,17 @@ function player:new(ally)
   self.pots = ally and {basicpot.new(1), basicpot.new(2), basicpot.new(3)} or {basicpot.new(4), basicpot.new(5), basicpot.new(6)}
   self.frontMostPot = self.pots[3]
   self.name = ally and 'player' or 'enemy'
+  self.money = 10
   return self
 end
 
 function player:render() 
   for key, pot in pairs(self.pots) do
     pot:render()
+  end
+  
+  if gSTATE_MACHINE.stateName == 'shop' then
+    love.graphics.print("Money: " .. self.money, (CENTER_X + 200) * gX_DIALATION, 100)
   end
 end
 

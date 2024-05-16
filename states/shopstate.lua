@@ -10,7 +10,7 @@ local background = love.graphics.newImage("sprites/shopscreen.png")
 function ShopState.new()
   local instance = setmetatable({}, ShopState)
   instance.name = "shop" 
-  instance.buttons = {button.new(700, 600, 
+  instance.buttons = {button.new(CENTER_X, 600, 
         function()
           gSTATE_MACHINE:changeState('fight')
         end, 'FIGHT???'
