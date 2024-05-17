@@ -6,12 +6,13 @@ baseplant.__index = baseplant
 baseplant.attack = nil -- int, plant's dmg to pots
 baseplant.sprite = nil -- image, plant's sprite
 baseplant.x = nil -- int, plant's drawing cord
-baseplant.y = 395 -- int, plant's drawing cord, always the same
+baseplant.y = 395 * gY_DIALATION -- int, plant's drawing cord, always the same
 baseplant.type = nil -- string, plant's type
 baseplant.ally = nil -- boolean, on your side or not used for rendering
 baseplant.timer = 0 -- long, timer until plant can attack again
 
 local PLANT_WIDTH = 220 * gX_DIALATION
+DEFAULT_PLANT_Y = 395 * gY_DIALATION
 
 function baseplant.new() end
 function baseplant:effects() end

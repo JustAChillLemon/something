@@ -14,7 +14,7 @@ basepot.type = nil -- string, pot's type
 --basepot.plants = {} -- table, plants currently in the pot
 basepot.maxPlants = nil -- int, max plants that can go in plants
 basepot.currentPlants = 0
-basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
+--basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
 basepot.sprite = nil -- image, the pot's sprite
 basepot.alive = true
 
@@ -36,6 +36,7 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.pos = pos
   basepot.assignX(instance, pos)
   instance.baseHealth = baseHealth
+  instance.soil = startersoil.new()
   instance.currentHealth = baseHealth
   instance.type = potType
   instance.sprite = sprite
@@ -51,7 +52,7 @@ end
 
 function basepot:addPlant(plant)
   if self.currentPlants + 1 > self.maxPlants then
-    return "error"
+    error("hi")
   end
   table.insert(self.plants, plant)
   self.currentPlants = self.currentPlants + 1
@@ -88,12 +89,16 @@ function basepot:update(dt)
         self.heldDown = false
         self.y = POT_Y
         basepot.assignX(self, self.pos)
+        for key, plant in pairs(self.plants) do
+          plant.x = self.x
+          plant.y = DEFAULT_PLANT_Y
+        end
       else 
         self.x = love.mouse.getX() - self.xDiff
         self.y = love.mouse.getY() - self.yDiff
         for key, plant in pairs(self.plants) do
           plant.x = self.x
-          plant.y = self.y - 395
+          plant.y = self.y - DEFAULT_PLANT_Y
         end
       end
     end
@@ -109,7 +114,7 @@ function basepot:render()
 end
  
 function basepot.assignX(instance, pos)
-  instance.x =  (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X)
+  instance.x = (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X)
 end
 function basepot:changeTarget(pot) 
   for key, plant in pairs(self.plants) do

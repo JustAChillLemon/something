@@ -35,7 +35,6 @@ function button:update(dt)
   
   if isReleased(self.x, self.y, WIDTH, HEIGHT, 1) then
     if self.inZone then
-      print(self.inZone)
       self:click()
       self.cd = 2
       self.color = 100
