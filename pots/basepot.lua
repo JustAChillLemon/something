@@ -47,6 +47,8 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.heldDown = false
   instance.xDiff = 0
   instance.yDiff = 0
+  instance.width = POT_WIDTH
+  instance.length = POT_HEIGHT
   return instance
 end
 
