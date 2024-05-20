@@ -16,7 +16,7 @@ function ShopItem.new(price, sprite, itemType, itemSpot, length, width, table)
   return table
 end
 function ShopItem:update(dt) 
-  if isClicked(self.x, self.y, self.width, self.height, 1) then
+  if isClicked(self.x, self.y, self.width, self.length, 1) then
     self.heldDown = true
     self.xDiff = love.mouse.getX() - self.x
     self.yDiff = love.mouse.getY() - self.y
@@ -26,10 +26,25 @@ function ShopItem:update(dt)
     if not love.mouse.isDown(1) then
       self.heldDown = false
       self.x, self.y = ShopItem:assignCords(self.itemSpot)
+      if self.intersecting then
+        self.remove = true
+      end
     else 
+      self.x = love.mouse.getX() - self.xDiff
+      self.y = love.mouse.getY() - self.yDiff
+      local intersectingThisTime = false
       for key, pot in pairs(user.pots) do
         if intersects(self, pot) then
-          -- do a behavior thigny thing!!! weeeee
+          self.intersecting = pot
+          intersectingThisTime = true
+        end
+      end
+      if not intersectingThisTime then
+        self.intersecting = nil
+      end
+    end
+  end
+end
 function ShopItem:render() 
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
 end

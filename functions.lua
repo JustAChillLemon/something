@@ -12,3 +12,4 @@ end
 --
 function intersects(table1, table2)
   return ((table1.x >= table2.x) and (table1.x <= table2.x + table2.width) and (table1.y >= table2.y) and (table1.y <= table2.y + table2.length)) or ((table2.x >= table1.x) and (table2.x <= table1.x + table1.width) and (table2.y >= table1.y) and (table2.y <= table1.y + table1.length))
+  end
