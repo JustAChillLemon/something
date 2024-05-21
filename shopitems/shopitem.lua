@@ -5,18 +5,18 @@ local TYPE_SOIL = 1
 local TYPE_POT = 2
 local TYPE_PLANT_SEED = 3
 
-function ShopItem.new(price, sprite, itemType, itemSpot, length, width, table) 
+function ShopItem.new(price, sprite, itemType, itemSpot, height, width, table) 
   table = setmetatable(table or {}, ShopItem)
   table.price = price
   table.itemSpot = itemSpot
   table.sprite = sprite
   table.itemType = itemType
   table.x, table.y = ShopItem:assignCords(itemSpot)
-  table.length, table.width = length, width
+  table.height, table.width = height, width
   return table
 end
 function ShopItem:update(dt) 
-  if isClicked(self.x, self.y, self.width, self.length, 1) then
+  if isClicked(self.x, self.y, self.width, self.height, 1) then
     self.heldDown = true
     self.xDiff = love.mouse.getX() - self.x
     self.yDiff = love.mouse.getY() - self.y
@@ -34,7 +34,7 @@ function ShopItem:update(dt)
       self.y = love.mouse.getY() - self.yDiff
       local intersectingThisTime = false
       for key, pot in pairs(user.pots) do
-        if intersects(self, pot) then
+        if isInClickZone(pot.x, pot.y, pot.width, pot.height) then
           self.intersecting = pot
           intersectingThisTime = true
         end
