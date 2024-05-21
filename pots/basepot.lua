@@ -49,6 +49,7 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.yDiff = 0
   instance.width = POT_WIDTH
   instance.height = POT_HEIGHT
+  instance.highlight = false
   return instance
 end
 
@@ -107,8 +108,12 @@ function basepot:update(dt)
   end
 end
 function basepot:render()
+  if self.highlight then
+    love.graphics.setColor(66/255, 247/255, 72/255)
+  end
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
   love.graphics.rectangle('line', self.x, self.y, POT_WIDTH, POT_HEIGHT)
+  love.graphics.setColor(1,1,1)
   for k, v in pairs(self.plants) do
     v:render()
   end

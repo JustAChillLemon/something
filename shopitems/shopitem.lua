@@ -28,15 +28,25 @@ function ShopItem:update(dt)
       self.x, self.y = ShopItem:assignCords(self.itemSpot)
       if self.intersecting then
         self.remove = true
+        user.money = user.money - self.price
+        self.intersecting.highlight = false
+        print(self.intersecting:out())
       end
     else 
       self.x = love.mouse.getX() - self.xDiff
       self.y = love.mouse.getY() - self.yDiff
       local intersectingThisTime = false
       for key, pot in pairs(user.pots) do
+        local notInside = true
         if isInClickZone(pot.x, pot.y, pot.width, pot.height) then
           self.intersecting = pot
+          user.pots[key].highlight = true
           intersectingThisTime = true
+          notInside = false
+        end
+        
+        if notInside and pot.highlight then
+          pot.highlight = false
         end
       end
       if not intersectingThisTime then

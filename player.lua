@@ -7,7 +7,7 @@ player.frontMostPotIdx = 3
 
 function player:new(ally)
   self = setmetatable({}, player)
-  self.pots = ally and {basicpot.new(1), basicpot.new(2), basicpot.new(3)} or {basicpot.new(4), basicpot.new(5), basicpot.new(6)}
+  self.pots = ally and {basicpot.new(1), basicpot.new(3), basicpot.new(2)} or {basicpot.new(4), basicpot.new(5), basicpot.new(6)}
   self.frontMostPot = self.pots[3]
   self.name = ally and 'player' or 'enemy'
   self.money = 10

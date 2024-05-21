@@ -12,15 +12,12 @@ function ShopState.new()
   local instance = setmetatable({}, ShopState)
   instance.name = "shop" 
   instance.products = {BasicSoilProduct:new(1, 1), BasicSoilProduct:new(1, 3)}
-  print(instance.products[1])
-  print(instance.products[2])
   instance.buttons = {button.new(CENTER_X, 600, 
         function()
           gSTATE_MACHINE:changeState('fight')
         end, 'FIGHT???'
       ),}
   
-  print("HEYYY")
   return instance
 end
 
