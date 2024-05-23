@@ -29,8 +29,8 @@ function ShopItem:update(dt)
       if self.intersecting then
         self.remove = true
         user.money = user.money - self.price
+        self:behavior()
         self.intersecting.highlight = false
-        print(self.intersecting:out())
       end
     else 
       self.x = love.mouse.getX() - self.xDiff
@@ -40,6 +40,7 @@ function ShopItem:update(dt)
         local notInside = true
         if isInClickZone(pot.x, pot.y, pot.width, pot.height) then
           self.intersecting = pot
+          self.intersectionKey = key
           user.pots[key].highlight = true
           intersectingThisTime = true
           notInside = false

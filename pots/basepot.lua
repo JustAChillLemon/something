@@ -39,7 +39,10 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.soil = startersoil.new()
   instance.currentHealth = baseHealth
   instance.type = potType
-  instance.sprite = sprite
+  if not sprite then
+    print("KILL ME!")
+  end
+  instance.sprite = sprite or "why am i nil"
   instance.maxPlants = maxPlants
   instance.plants = {}
   instance.alive = true
@@ -54,12 +57,7 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
 end
 
 function basepot:addPlant(plant)
-  if self.currentPlants + 1 > self.maxPlants then
-    error("hi")
-  end
   table.insert(self.plants, plant)
-  self.currentPlants = self.currentPlants + 1
-
 end
 
 function basepot:changeSoil(soil) 
@@ -81,6 +79,12 @@ function basepot:update(dt)
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
+    print(self.type)
+    print(self.x)
+    print(self.y)
+    print(POT_WIDTH)
+    print(POT_HEIGHT)
+    print(self.sprite)
     if isClicked(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
       self.heldDown = true
       self.xDiff = love.mouse.getX() - self.x
@@ -119,9 +123,11 @@ function basepot:render()
   end
   love.graphics.print(tostring(self.currentHealth), self.x, self.y)
 end
- 
+function basepot:reset()
+  self.currentHealth = self.baseHealth
+end
 function basepot.assignX(instance, pos)
-  instance.x = (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X)
+  instance.x = (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X) or 720
 end
 function basepot:changeTarget(pot) 
   for key, plant in pairs(self.plants) do
