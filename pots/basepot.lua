@@ -39,9 +39,6 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.soil = startersoil.new()
   instance.currentHealth = baseHealth
   instance.type = potType
-  if not sprite then
-    print("KILL ME!")
-  end
   instance.sprite = sprite or "why am i nil"
   instance.maxPlants = maxPlants
   instance.plants = {}
@@ -58,6 +55,11 @@ end
 
 function basepot:addPlant(plant)
   table.insert(self.plants, plant)
+end
+
+function basepot:switchPlant(plant)
+  table.remove(self.plants, 1)
+  self:addPlant(plant)
 end
 
 function basepot:changeSoil(soil) 

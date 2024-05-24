@@ -1,18 +1,23 @@
+
 ShopItem = {}
 ShopItem.__index = ShopItem
 
+-- keeping all the values for each type of thing bought in one place
 local TYPE_SOIL = 1
 local TYPE_POT = 2
 local TYPE_PLANT_SEED = 3
 
-function ShopItem.new(price, sprite, itemType, itemSpot, height, width, table) 
+local HEIGHT = 220 * gY_DIALATION
+local WIDTH = 220 * gX_DIALATION
+
+function ShopItem.new(price, sprite, itemType, itemSpot, height, width, table, customHeight, customWidth) 
   table = setmetatable(table or {}, ShopItem)
   table.price = price
   table.itemSpot = itemSpot
   table.sprite = sprite
   table.itemType = itemType
   table.x, table.y = ShopItem:assignCords(itemSpot)
-  table.height, table.width = height, width
+  table.height, table.width = customHeight or HEIGHT, customWidth or WIDTH
   return table
 end
 function ShopItem:update(dt) 

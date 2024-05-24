@@ -10,8 +10,6 @@ user.pots[1]:addPlant(grape.new(user.pots[1].x, true))
 user.pots[2]:addPlant(grape.new(user.pots[2].x, true))
 user.pots[3]:addPlant(grape.new(user.pots[3].x, true))
 
-local timeSinceLast = 0
-
 function love.keypressed(key) 
   if key == 'escape' then
     love.event.quit()

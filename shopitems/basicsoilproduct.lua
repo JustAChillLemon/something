@@ -8,7 +8,7 @@ setmetatable(BasicSoilProduct, SoilProduct)
 local SPRITE = love.graphics.newImage("sprites/placeholderSoil.png")
 
 function BasicSoilProduct:new(price, itemSpot)
-  return setmetatable(SoilProduct.new(price, SPRITE, itemSpot, {}), BasicSoilProduct)
+  return setmetatable(SoilProduct.new(price, SPRITE, itemSpot, self), BasicSoilProduct)
 end
 
 function BasicSoilProduct:behavior()
