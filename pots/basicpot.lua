@@ -12,3 +12,10 @@ local MAX_PLANTS = 1
 function basicpot.new(pos)
   return basepot.new(setmetatable({}, basicpot), pos, BASE_HEALTH, POT_TYPE, SPRITE, MAX_PLANTS)
 end
+
+--[[function basicpot:update(dt)
+  if SPRITE then
+    print("WE")
+  end
+  basepot:update(dt)
+end]]

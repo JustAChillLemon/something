@@ -13,7 +13,16 @@ function player:new(ally)
   self.money = 10
   return self
 end
-
+function player:reset()
+  for key, pot in pairs(self.pots) do
+    pot:reset()
+  end
+end
+function player:alterPot(key, pot)
+  local temp = self.pots[key].plants[1]
+  self.pots[key] = pot
+  self.pots[key]:addPlant(temp)
+end
 function player:render() 
   for key, pot in pairs(self.pots) do
     pot:render()

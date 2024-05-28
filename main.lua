@@ -24,7 +24,6 @@ end
 
 function love.draw()
   gSTATE_MACHINE:render()
-  love.graphics.rectangle('line', 0, 395 * gY_DIALATION, 2000, 1)
 end
 function love.mousereleased(x, y, button)
   love.mouse.released[button] = true
