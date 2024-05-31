@@ -1,4 +1,3 @@
-require 'soil/startersoil'
 require 'plants/baseplant'
 require 'globals'
 
@@ -11,10 +10,10 @@ basepot.pos = nil -- int, pot's position on the row of pots fighting
 basepot.currentHealth = nil -- int, pot's current health
 basepot.baseHealth = nil -- int, pot's max hp
 basepot.type = nil -- string, pot's type
---basepot.plants = {} -- table, plants currently in the pot
+--basepot.plants = -- a single table that is a plant
 basepot.maxPlants = nil -- int, max plants that can go in plants
 basepot.currentPlants = 0
---basepot.soil = startersoil.new() -- string, type of soil, will have the default value of soil
+--basepot.gadgets, a single gadget attached tot his pot
 basepot.sprite = nil -- image, the pot's sprite
 basepot.alive = true
 
@@ -36,12 +35,12 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.pos = pos
   basepot.assignX(instance, pos)
   instance.baseHealth = baseHealth
-  instance.soil = startersoil.new()
+  instance.gadget = nil
   instance.currentHealth = baseHealth
   instance.type = potType
   instance.sprite = sprite or "why am i nil"
   instance.maxPlants = maxPlants
-  instance.plants = {}
+  instance.plant = nil
   instance.alive = true
   instance.y = POT_Y
   instance.heldDown = false
@@ -52,14 +51,14 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.highlight = false
   return instance
 end
-
+function basepot:fightStart() end
+function basepot:effect() end
 function basepot:addPlant(plant)
-  table.insert(self.plants, plant)
+  self.plant = plant
 end
 
 function basepot:switchPlant(plant)
-  table.remove(self.plants, 1)
-  self:addPlant(plant)
+  self.plant = plant
 end
 
 function basepot:changeSoil(soil) 
@@ -75,18 +74,10 @@ end
 
 function basepot:update(dt) 
   if gSTATE_MACHINE.stateName == 'fight' then
-    for key, plant in pairs(self.plants) do
-      plant:update(dt)
-    end
+    self.plant:update(dt)
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
-    print(self.type)
-    print(self.x)
-    print(self.y)
-    print(POT_WIDTH)
-    print(POT_HEIGHT)
-    print(self.sprite)
     if isClicked(self.x, self.y, POT_WIDTH, POT_HEIGHT, 1)then
       self.heldDown = true
       self.xDiff = love.mouse.getX() - self.x
@@ -98,16 +89,18 @@ function basepot:update(dt)
         self.heldDown = false
         self.y = POT_Y
         basepot.assignX(self, self.pos)
-        for key, plant in pairs(self.plants) do
-          plant.x = self.x
-          plant.y = DEFAULT_PLANT_Y
+        self.plant.x = self.x
+        self.plant.y = DEFAULT_PLANT_Y
+        if self.gadget then
+          self.gadget:assignPos(self)
         end
       else 
         self.x = love.mouse.getX() - self.xDiff
         self.y = love.mouse.getY() - self.yDiff
-        for key, plant in pairs(self.plants) do
-          plant.x = self.x
-          plant.y = self.y - DEFAULT_PLANT_Y
+        self.plant.x = self.x
+        self.plant.y = self.y - DEFAULT_PLANT_Y
+        if self.gadget then
+          self.gadget:assignPos(self)
         end
       end
     end
@@ -120,21 +113,22 @@ function basepot:render()
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
   love.graphics.rectangle('line', self.x, self.y, POT_WIDTH, POT_HEIGHT)
   love.graphics.setColor(1,1,1)
-  for k, v in pairs(self.plants) do
-    v:render()
+  self.plant:render()
+  if self.gadget then
+    self.gadget:render()
   end
   love.graphics.print(tostring(self.currentHealth), self.x, self.y)
+  love.graphics.print(tostring(self.alive), self.x, self.y - 15)
 end
 function basepot:reset()
   self.currentHealth = self.baseHealth
+  self.alive = true
 end
 function basepot.assignX(instance, pos)
   instance.x = (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X) or 720
 end
 function basepot:changeTarget(pot) 
-  for key, plant in pairs(self.plants) do
-    plant:changeTarget(pot)
-  end
+  self.plant:changeTarget(pot)
 end
 
 function basepot:out() 

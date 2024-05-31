@@ -1,5 +1,6 @@
 require 'states.basestate'
-require 'shopitems.basicsoilproduct'
+require 'shopitems.gadgets.splunkergadgetproduct'
+require 'shopitems.pots.coffeepotproduct'
 require 'button'
 
 ShopState = {}
@@ -11,7 +12,7 @@ local background = love.graphics.newImage("sprites/shopscreen.png")
 function ShopState.new()
   local instance = setmetatable({}, ShopState)
   instance.name = "shop" 
-  instance.products = {BasicSoilProduct:new(1, 1), BasicSoilProduct:new(1, 3)}
+  instance.products = {SplunkerProduct:new(1), SplunkerProduct:new(2), CoffeePotProduct.new(3)}
   instance.buttons = {button.new(CENTER_X, 600, 
         function()
           gSTATE_MACHINE:changeState('fight')
@@ -26,10 +27,11 @@ function ShopState:render()
   for key, button in pairs(self.buttons) do
     button:render()
   end
+
+  user:render()
   for key, product in pairs(self.products) do 
     product:render()
   end
-  user:render()
 end
 
 function ShopState:update(dt)

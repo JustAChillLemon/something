@@ -10,7 +10,5 @@ local POT_TYPE = 'water'
 local MAX_PLANTS = 1
 
 function WaterPot.new(pos)
-  return basepot.new(setmetatable({}, WaterPot), pos, BASE_HEALTH, POT_TYPE, SPRITE, MAX_PLANTS)
-  --print(temp.x)
-  --return temp
+  return setmetatable(basepot.new({} pos, BASE_HEALTH, POT_TYPE, SPRITE, MAX_PLANTS), WaterPot)
 end

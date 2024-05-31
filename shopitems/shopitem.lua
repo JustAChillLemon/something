@@ -3,15 +3,15 @@ ShopItem = {}
 ShopItem.__index = ShopItem
 
 -- keeping all the values for each type of thing bought in one place
-local TYPE_SOIL = 1
+local TYPE_GADGET = 1
 local TYPE_POT = 2
 local TYPE_PLANT_SEED = 3
 
 local HEIGHT = 220 * gY_DIALATION
 local WIDTH = 220 * gX_DIALATION
 
-function ShopItem.new(price, sprite, itemType, itemSpot, height, width, table, customHeight, customWidth) 
-  table = setmetatable(table or {}, ShopItem)
+function ShopItem.new(price, sprite, itemType, itemSpot, table, customHeight, customWidth) 
+  table = table or setmetatable({}, ShopItem)
   table.price = price
   table.itemSpot = itemSpot
   table.sprite = sprite
@@ -34,7 +34,7 @@ function ShopItem:update(dt)
       if self.intersecting then
         self.remove = true
         user.money = user.money - self.price
-        self:behavior()
+        self:attach()
         self.intersecting.highlight = false
       end
     else 
@@ -77,5 +77,16 @@ function ShopItem:assignCords(itemSpot)
     return 200, 300
   elseif itemSpot == 6 then
     return 300, 300
+  end
+end
+function ShopItem:attach() 
+  if self.itemType == TYPE_GADGET then
+    user:attachGadget(self.createItem(), self.intersectionKey)
+  elseif self.itemType == TYPE_POT then
+    user:alterPot(self.intersectionKey, self.createItem(self.intersectionKey))
+  elseif self.itemType == TYPE_PLANT_SEED then
+    
+  else 
+    print("there should not be this type of thingy this is a problem dude")
   end
 end

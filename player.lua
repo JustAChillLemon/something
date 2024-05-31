@@ -17,11 +17,23 @@ function player:reset()
   for key, pot in pairs(self.pots) do
     pot:reset()
   end
+  self.frontMostPot = self.pots[3]
+  self.frontMostPotIdx = 3
+  self.lost = false
+end
+function player:fightStart(enemy)
+  self.frontMostPot = self.pots[3]
+  for k,v in pairs(self.pots) do
+    v:fightStart()
+    v:changeTarget(enemy.frontMostPot)
+  end
 end
 function player:alterPot(key, pot)
-  local temp = self.pots[key].plants[1]
+  local temp = self.pots[key].plant
+  local temp2 = self.pots[key].gadget
   self.pots[key] = pot
   self.pots[key]:addPlant(temp)
+  self.pots[key].gadget = temp2
 end
 function player:render() 
   for key, pot in pairs(self.pots) do
@@ -39,16 +51,21 @@ function player:update(dt, enemy)
       if self.frontMostPot == self.pots[1] then
         self.lost = true
       end
-      self.frontMostPotIdx = self.frontMostPotIdx > 1 and self.frontMostPotIdx - 1 or 1 
+      self.frontMostPotIdx = self.frontMostPotIdx - 1
       self.frontMostPot = self.pots[self.frontMostPotIdx]
     end
-    self.changePot = enemy.frontMostPot ~= (self.pots[1].plants[1] ~= nil and self.pots[1].plants[1].target)
+    
+    self.changePot = self.pots[1].plant.target ~= enemy.pots[enemy.frontMostPot]
   end
   
   for key, pot in pairs(self.pots) do
     pot:update(dt)
-    if self.changePot then
+    if self.changePot and enemy then
       pot:changeTarget(enemy.frontMostPot)
     end
   end
+end
+function player:attachGadget(gadget, key)
+  self.pots[key].gadget = gadget
+  gadget:assignPos(self.pots[key])
 end

@@ -16,6 +16,9 @@ function FightState.new()
   instance.enemy = player:new(false)
   instance.enemy.pots[1]:addPlant(grape.new(instance.enemy.pots[1].x, false))
   instance.enemy.pots[2]:addPlant(grape.new(instance.enemy.pots[2].x, false))
+  instance.enemy.pots[3]:addPlant(grape.new(instance.enemy.pots[3].x, false))
+  user:fightStart(instance.enemy)
+  instance.enemy:fightStart(user)
   return instance
 end
 function FightState:render()

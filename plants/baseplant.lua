@@ -17,7 +17,7 @@ DEFAULT_PLANT_Y = 395 * gY_DIALATION
 function baseplant.new() end
 function baseplant:effects() end
 function baseplant:attackPot() 
-    self.target:attacked(self.attack)
+  self.target:attacked(self.attack)
 end
 function baseplant:update(dt) 
   if gSTATE_MACHINE.stateName == 'fight' then
