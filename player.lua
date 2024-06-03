@@ -34,6 +34,9 @@ function player:alterPot(key, pot)
   self.pots[key] = pot
   self.pots[key]:addPlant(temp)
   self.pots[key].gadget = temp2
+  if temp2 then 
+    temp2:changePot(self.pots[key])
+  end
 end
 function player:render() 
   for key, pot in pairs(self.pots) do

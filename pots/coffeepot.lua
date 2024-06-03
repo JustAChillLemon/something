@@ -12,3 +12,7 @@ local MAX_PLANTS = 1
 function CoffeePot.new(pos)
   return setmetatable(basepot.new({}, pos, BASE_HEALTH, POT_TYPE, SPRITE, MAX_PLANTS), CoffeePot)
 end
+
+function CoffeePot:effect()
+  self.plant.attackMult = self.plant.attackMult * 2
+end

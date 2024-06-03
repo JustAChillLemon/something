@@ -81,7 +81,7 @@ function ShopItem:assignCords(itemSpot)
 end
 function ShopItem:attach() 
   if self.itemType == TYPE_GADGET then
-    user:attachGadget(self.createItem(), self.intersectionKey)
+    user:attachGadget(self.createItem(user.pots[self.intersectionKey]), self.intersectionKey)
   elseif self.itemType == TYPE_POT then
     user:alterPot(self.intersectionKey, self.createItem(self.intersectionKey))
   elseif self.itemType == TYPE_PLANT_SEED then

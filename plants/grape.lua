@@ -4,16 +4,12 @@ grape = {}
 grape.__index = grape
 setmetatable(grape, baseplant)
 
-local sprite = love.graphics.newImage("sprites/plants/plantgrape.png")
+local SPRITE = love.graphics.newImage("sprites/plants/plantgrape.png")
 local HEIGHT = 240
+local BASE_ATTACK = 20
+local BASE_CD = 1
+local TYPE = 'grape'
+
 function grape.new(x, ally) 
-  local instance = setmetatable({}, grape)
-  instance.attack = 20
-  instance.cd = 1
-  instance.sprite = sprite
-  instance.x = x
-  instance.type = "grape"
-  instance.ally = ally
-  instance.HEIGHT = 240
-  return instance
+  return setmetatable(baseplant.new(x, ally, BASE_ATTACK, BASE_CD, SPRITE, TYPE, HEIGHT), grape)
 end

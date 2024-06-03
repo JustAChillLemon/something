@@ -51,7 +51,13 @@ function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.highlight = false
   return instance
 end
-function basepot:fightStart() end
+function basepot:fightStart() 
+  self.plant:fightStart()
+  if self.gadget then
+    self.gadget:fightStart()
+  end
+  self:effect()
+end
 function basepot:effect() end
 function basepot:addPlant(plant)
   self.plant = plant
@@ -73,7 +79,7 @@ function basepot:attacked(amount)
 end
 
 function basepot:update(dt) 
-  if gSTATE_MACHINE.stateName == 'fight' then
+  if gSTATE_MACHINE.stateName == 'fight' and self.alive then
     self.plant:update(dt)
   end
   
@@ -92,7 +98,7 @@ function basepot:update(dt)
         self.plant.x = self.x
         self.plant.y = DEFAULT_PLANT_Y
         if self.gadget then
-          self.gadget:assignPos(self)
+          self.gadget:assignPos()
         end
       else 
         self.x = love.mouse.getX() - self.xDiff
@@ -100,7 +106,7 @@ function basepot:update(dt)
         self.plant.x = self.x
         self.plant.y = self.y - DEFAULT_PLANT_Y
         if self.gadget then
-          self.gadget:assignPos(self)
+          self.gadget:assignPos()
         end
       end
     end
