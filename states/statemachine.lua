@@ -1,6 +1,7 @@
 require 'states.titlestate'
 require 'states.shopstate'
 require 'states.fightstate'
+require 'states.postfightstate'
 
 StateMachine = {}
 StateMachine.__index = StateMachine
@@ -26,7 +27,7 @@ function StateMachine:render()
   self.current:render()
 end
 
-function StateMachine:changeState(newState) 
+function StateMachine:changeState(newState)
   self.current:exit()
   if newState == "title" then
     self.current = TitleState.new()
@@ -34,6 +35,8 @@ function StateMachine:changeState(newState)
     self.current = ShopState.new()
   elseif newState == 'fight' then
     self.current = FightState.new()
+  elseif newState == 'postfight' then
+    self.current = PostFightState.new(self.current.enemy)
   end
   
   self.stateName = newState

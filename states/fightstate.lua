@@ -1,6 +1,4 @@
 require 'states.basestate'
-require 'button'
-require 'player'
 require 'plants.grape'
 
 
@@ -30,7 +28,6 @@ function FightState:update(dt)
   self.enemy:update(dt, user)
   user:update(dt, self.enemy)
   if self.enemy.lost or user.lost then
-    user:reset()
-    gSTATE_MACHINE:changeState('shop')
+    gSTATE_MACHINE:changeState('postfight')
   end
 end

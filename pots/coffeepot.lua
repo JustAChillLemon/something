@@ -14,5 +14,6 @@ function CoffeePot.new(pos)
 end
 
 function CoffeePot:effect()
-  self.plant.attackMult = self.plant.attackMult * 2
+  self.plant.attackMult = self.plant.attackMult * 1.5
+  self.plant.cd = self.plant.cd / 2
 end

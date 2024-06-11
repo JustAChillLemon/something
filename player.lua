@@ -39,12 +39,21 @@ function player:alterPot(key, pot)
   end
 end
 function player:render() 
+  local heldPot = nil
   for key, pot in pairs(self.pots) do
-    pot:render()
+    if not pot.heldDown then
+      pot:render()
+    else 
+      heldPot = pot
+    end
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
     love.graphics.print("Money: " .. self.money, (CENTER_X + 200) * gX_DIALATION, 100)
+  end
+  
+  if heldPot then 
+    return heldPot
   end
 end
 

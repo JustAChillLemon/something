@@ -29,6 +29,7 @@ function baseplant.new(x, ally, attack, cd, sprite, plantType, height)
   instance.attackMult = 1
   instance.animationTimer = 0
   instance.moving = 0
+  instance.up = 1 == math.random(1,0)
   return instance
 end
 function baseplant:fightStart()
@@ -40,26 +41,42 @@ function baseplant:effects() end
 function baseplant:attackPot() 
   self.target:attacked(self.attack * self.attackMult)
 end
+function baseplant:animate(dt)
+  self.animationTimer = self.animationTimer + dt
+  if self.animationTimer >= ANIMATION_CD then
+    self.animationTimer = self.animationTimer % ANIMATION_CD
+    if self.up then
+      self.moving = math.random(-15, -30)
+      self.up = false
+    else
+      self.moving = math.random(30, 15)
+      self.up = true
+    end
+  end
+
+  self.y = self.y + (self.moving * dt * 4)
+  
+  if self.y < (DEFAULT_PLANT_Y - (100 * gY_DIALATION)) then
+    self.up = false
+  elseif self.y > (DEFAULT_PLANT_Y + (100 * gY_DIALATION)) then
+    self.up = true
+  end
+end
 function baseplant:update(dt) 
   if gSTATE_MACHINE.stateName == 'fight' then
     self.timer = self.timer + dt
-    self.animationTimer = self.animationTimer + dt
-    if self.animationTimer >= ANIMATION_CD then
-      self.animationTimer = self.animationTimer % ANIMATION_CD
-      self.moving = math.random(-30, 30)
-    end
-  
-    self.y = self.y + (self.moving * dt * 2)
+    self:animate(dt)
     
     if self.timer >= self.cd then
       self.timer = self.timer % self.cd 
       self:attackPot()
-      
     end
   end
 end
+function baseplant:reset()
+  self.y = DEFAULT_PLANT_Y
+end
 function baseplant:render() 
-  
   love.graphics.draw(self.sprite, self.ally and self.x + PLANT_WIDTH or self.x,
     self.y, 0, (self.ally and -1 or 1) * gX_DIALATION, 1 * gY_DIALATION)
 end

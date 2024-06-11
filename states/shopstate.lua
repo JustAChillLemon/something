@@ -27,10 +27,18 @@ function ShopState:render()
   for key, button in pairs(self.buttons) do
     button:render()
   end
+  local heldObj = user:render()
 
-  user:render()
   for key, product in pairs(self.products) do 
-    product:render()
+    if not product.heldDown then
+      product:render()
+    else 
+      heldObj = product
+    end
+  end
+  
+  if heldObj then
+    heldObj:render()
   end
 end
 

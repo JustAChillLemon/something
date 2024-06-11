@@ -129,6 +129,7 @@ end
 function basepot:reset()
   self.currentHealth = self.baseHealth
   self.alive = true
+  self.plant:reset()
 end
 function basepot.assignX(instance, pos)
   instance.x = (pos == 1 and PLAYER_POS_1_X) or (pos == 2 and PLAYER_POS_2_X) or (pos == 3 and PLAYER_POS_3_X) or (pos == 4 and ENEMY_POS_1_X) or (pos == 5 and ENEMY_POS_2_X) or (pos == 6 and ENEMY_POS_3_X) or 720
