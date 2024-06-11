@@ -18,6 +18,13 @@ local ANIMATION_CD = 0.5
 function baseplant.new(x, ally, attack, cd, sprite, plantType, height) 
   local instance = setmetatable({}, baseplant)
   instance.x = x
+  if x == PLAYER_POS_1_X then
+    instance.pot = user.pots[1]
+  elseif x == PLAYER_POS_2_X then 
+    instance.pot = user.pots[2]
+  else
+    instance.pot = user.pots[3]
+  end
   instance.ally = ally
   instance.BASE_ATTACK = attack
   instance.attack = attack
@@ -84,9 +91,9 @@ function baseplant:render()
   
   love.graphics.setColor(1,0,0)
   love.graphics.setFont(INFO_FONT)
-  love.graphics.print(self.attack * self.attackMult, self.x + 180, POT_Y - 60)
+  love.graphics.print(self.attack * self.attackMult, self.x + 180, self.pot.y - 60)
   love.graphics.setColor(0,0,1)
-  love.graphics.print(self.cd, self.x + 180, POT_Y - 30)
+  love.graphics.print(self.cd, self.x + 180, self.pot.y - 30)
 
   love.graphics.setFont(DEFAULT_FONT)
   love.graphics.setColor(1,1,1)
