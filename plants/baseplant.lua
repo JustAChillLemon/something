@@ -83,3 +83,7 @@ end
 function baseplant:changeTarget(pot)
   self.target = pot
 end
+function baseplant:buff(attack, cd)
+  self.attack = self.attack + attack
+  self.cd = self.BASE_CD - cd
+end

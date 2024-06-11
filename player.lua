@@ -5,6 +5,8 @@ player.__index = player
 
 player.frontMostPotIdx = 3
 
+
+
 function player:new(ally)
   self = setmetatable({}, player)
   self.pots = ally and {basicpot.new(1), basicpot.new(2), basicpot.new(3)} or {basicpot.new(4), basicpot.new(5), basicpot.new(6)}
@@ -49,7 +51,9 @@ function player:render()
   end
   
   if gSTATE_MACHINE.stateName == 'shop' then
-    love.graphics.print("Money: " .. self.money, (CENTER_X + 200) * gX_DIALATION, 100)
+    love.graphics.setFont(MONEY_FONT)
+    love.graphics.print(self.money, (1530) * gX_DIALATION, 19 * gY_DIALATION)
+    love.graphics.setFont(DEFAULT_FONT)
   end
   
   if heldPot then 

@@ -141,3 +141,7 @@ end
 function basepot:out() 
   return "I am " .. tostring(self.pos)
 end
+function basepot:buff(hp, attack, cd)
+  self.currentHealth = self.currentHealth + hp
+  self.plant:buff(attack, cd)
+end

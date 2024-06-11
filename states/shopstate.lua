@@ -15,11 +15,11 @@ function ShopState.new()
   if not instance.window then 
     print("AAAAAAA")
     end
-  instance.buttons = {button.new(CENTER_X, 600, 
+  instance.buttons = {button.new(20, 20, 
         function()
           gSTATE_MACHINE:changeState('fight')
         end, 'FIGHT???'
-      ),}
+      , true),}
   
   return instance
 end
