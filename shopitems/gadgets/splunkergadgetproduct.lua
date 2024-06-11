@@ -13,7 +13,7 @@ local PRICE = 2 -- to be changed
 
 
 function SplunkerProduct:new(itemSpot)
-  local instance = setmetatable(GadgetProduct.new(PRICE, SPRITE, itemSpot, {}, HEIGHT, WIDTH), SplunkerProduct)
+  local instance = setmetatable(GadgetProduct.new(PRICE, SPRITE, {}, itemSpot, HEIGHT, WIDTH), SplunkerProduct)
   instance.createItem = function(holding) return Splunker.new(holding) end
   return instance
 end

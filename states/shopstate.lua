@@ -1,6 +1,5 @@
 require 'states.basestate'
-require 'shopitems.gadgets.splunkergadgetproduct'
-require 'shopitems.pots.coffeepotproduct'
+require 'shopitems.shopwindow'
 require 'button'
 
 ShopState = {}
@@ -12,7 +11,10 @@ local background = love.graphics.newImage("sprites/shopscreen.png")
 function ShopState.new()
   local instance = setmetatable({}, ShopState)
   instance.name = "shop" 
-  instance.products = {SplunkerProduct:new(1), SplunkerProduct:new(2), CoffeePotProduct.new(3)}
+  instance.window = ShopWindow.new()
+  if not instance.window then 
+    print("AAAAAAA")
+    end
   instance.buttons = {button.new(CENTER_X, 600, 
         function()
           gSTATE_MACHINE:changeState('fight')
@@ -27,18 +29,16 @@ function ShopState:render()
   for key, button in pairs(self.buttons) do
     button:render()
   end
-  local heldObj = user:render()
+  local potHeld = user:render()
 
-  for key, product in pairs(self.products) do 
-    if not product.heldDown then
-      product:render()
-    else 
-      heldObj = product
-    end
+  local shopItemHeld = self.window:render()
+  
+  if potHeld then
+    potHeld:render()
   end
   
-  if heldObj then
-    heldObj:render()
+  if shopItemHeld then
+    shopItemHeld:render()
   end
 end
 
@@ -46,11 +46,12 @@ function ShopState:update(dt)
   for key, button in pairs(self.buttons) do
     button:update(dt)
   end
-  for key, product in pairs(self.products) do 
+  --[[for key, product in pairs(self.products) do 
     product:update(dt)
     if product.remove then
       table.remove(self.products, key)
     end
-  end
+  end]]
+  self.window:update(dt)
   user:update(dt)
 end

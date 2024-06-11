@@ -12,7 +12,7 @@ local HEIGHT = SPRITE:getHeight() * gY_DIALATION
 local WIDTH = SPRITE:getWidth() * gX_DIALATION
 
 function CoffeePotProduct.new(itemSpot)
-  local instance = setmetatable(PotProduct.new(PRICE, SPRITE, itemSpot, {}, HEIGHT, WIDTH), CoffeePotProduct)
+  local instance = setmetatable(PotProduct.new(PRICE, SPRITE, {}, itemSpot, HEIGHT, WIDTH), CoffeePotProduct)
   instance.createItem = function(position) return CoffeePot.new(position) end
   return instance
 end

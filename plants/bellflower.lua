@@ -4,7 +4,7 @@ BellFlower = {}
 BellFlower.__index = BellFlower
 setmetatable(BellFlower, baseplant)
 
-local SPRITE = love.graphics.newImage('sprites/plants/plantgrape.png') -- needs new sprite
+local SPRITE = love.graphics.newImage('sprites/plants/plantbellflower.png') -- needs new sprite
 local HEIGHT = 240
 local BASE_ATTACK = 7
 local BASE_CD = 1.5

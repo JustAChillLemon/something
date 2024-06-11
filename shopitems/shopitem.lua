@@ -10,13 +10,13 @@ local TYPE_PLANT_SEED = 3
 local HEIGHT = 220 * gY_DIALATION
 local WIDTH = 220 * gX_DIALATION
 
-function ShopItem.new(price, sprite, itemType, itemSpot, table, customHeight, customWidth) 
-  table = table or setmetatable({}, ShopItem)
+function ShopItem.new(price, sprite, itemType, table, itemSpot, customHeight, customWidth) 
+  table = table
   table.price = price
   table.itemSpot = itemSpot
+  table.ogItemSpot = itemSpot
   table.sprite = sprite
   table.itemType = itemType
-  table.x, table.y = ShopItem:assignCords(itemSpot)
   table.height, table.width = customHeight or HEIGHT, customWidth or WIDTH
   return table
 end
@@ -27,10 +27,10 @@ function ShopItem:update(dt)
     self.yDiff = love.mouse.getY() - self.y
   end
   
-  if self.heldDown then
+  if self.heldDown then    
     if not love.mouse.isDown(1) then
       self.heldDown = false
-      self.x, self.y = ShopItem:assignCords(self.itemSpot)
+      self:assignCords()
       if self.intersecting then
         self.remove = true
         user.money = user.money - self.price
@@ -64,20 +64,13 @@ end
 function ShopItem:render() 
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
 end
-function ShopItem:assignCords(itemSpot) 
-  if itemSpot == 1 then
-    return 100, 200
-  elseif itemSpot == 2 then
-    return 200, 200
-  elseif itemSpot == 3 then
-    return 300, 200
-  elseif itemSpot == 4 then
-    return 100, 300
-  elseif itemSpot == 5 then
-    return 200, 300
-  elseif itemSpot == 6 then
-    return 300, 300
+function ShopItem:assignCords() 
+  if self.itemSpot == 1 then
+    self.x = SHOP_WINDOW_DEFAULT_X + (72)
+  else
+    self.x = SHOP_WINDOW_DEFAULT_X + ((72 + 72 + 220))
   end
+  self.y = SHOP_WINDOW_DEFAULT_Y + (72)
 end
 function ShopItem:attach() 
   if self.itemType == TYPE_GADGET then

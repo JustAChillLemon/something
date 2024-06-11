@@ -6,6 +6,6 @@ setmetatable(GadgetProduct, ShopItem)
 
 local TYPE_GADGET = 1
 
-function GadgetProduct.new(price, sprite, itemSpot, table, customHeight, customWidth)
-  return ShopItem.new(price, sprite, TYPE_GADGET, itemSpot, table, customHeight, customWidth)
+function GadgetProduct.new(price, sprite, table, itemSpot, customHeight, customWidth)
+  return ShopItem.new(price, sprite, TYPE_GADGET, table, itemSpot, customHeight, customWidth)
 end
