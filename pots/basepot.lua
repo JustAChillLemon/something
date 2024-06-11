@@ -29,7 +29,8 @@ local ENEMY_POS_1_X = (love.graphics.getWidth() - POT_WIDTH - (32 * gX_DIALATION
 local ENEMY_POS_2_X = ENEMY_POS_1_X - POT_GAP - POT_WIDTH
 local ENEMY_POS_3_X = ENEMY_POS_2_X - POT_GAP - POT_WIDTH
 
-local POT_Y = (810 * gY_DIALATION) -- all pots of the same type will be rendered at the same y, but currently only one type of pot so simply naming it pot_y for now
+
+POT_Y = (810 * gY_DIALATION) -- all pots of the same type will be rendered at the same y, but currently only one type of pot so simply naming it pot_y for now
 
 function basepot.new(instance, pos, baseHealth, potType, sprite, maxPlants)
   instance.pos = pos
@@ -75,6 +76,7 @@ function basepot:attacked(amount)
   self.currentHealth = self.currentHealth - amount
   if self.currentHealth <= 0 then
     self.alive = false
+    self.currentHealth = 0
   end
 end
 
@@ -117,14 +119,16 @@ function basepot:render()
     love.graphics.setColor(66/255, 247/255, 72/255)
   end
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
-  love.graphics.rectangle('line', self.x, self.y, POT_WIDTH, POT_HEIGHT)
   love.graphics.setColor(1,1,1)
   self.plant:render()
   if self.gadget then
     self.gadget:render()
   end
-  love.graphics.print(tostring(self.currentHealth), self.x, self.y)
-  love.graphics.print(tostring(self.alive), self.x, self.y - 15)
+  love.graphics.setFont(HP_FONT)
+  love.graphics.setColor(0,0,0)
+  love.graphics.print(tostring(self.currentHealth), self.x, self.y - 60)
+  love.graphics.setFont(DEFAULT_FONT)
+  love.graphics.setColor(1,1,1)
 end
 function basepot:reset()
   self.currentHealth = self.baseHealth

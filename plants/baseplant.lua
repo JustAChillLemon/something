@@ -75,10 +75,21 @@ function baseplant:update(dt)
 end
 function baseplant:reset()
   self.y = DEFAULT_PLANT_Y
+  self.cd = self.BASE_CD
+  self.attack = self.BASE_ATTACK
 end
 function baseplant:render() 
   love.graphics.draw(self.sprite, self.ally and self.x + PLANT_WIDTH or self.x,
     self.y, 0, (self.ally and -1 or 1) * gX_DIALATION, 1 * gY_DIALATION)
+  
+  love.graphics.setColor(1,0,0)
+  love.graphics.setFont(INFO_FONT)
+  love.graphics.print(self.attack * self.attackMult, self.x + 180, POT_Y - 60)
+  love.graphics.setColor(0,0,1)
+  love.graphics.print(self.cd, self.x + 180, POT_Y - 30)
+
+  love.graphics.setFont(DEFAULT_FONT)
+  love.graphics.setColor(1,1,1)
 end
 function baseplant:changeTarget(pot)
   self.target = pot

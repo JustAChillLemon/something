@@ -5,7 +5,7 @@ ShopItem.__index = ShopItem
 -- keeping all the values for each type of thing bought in one place
 local TYPE_GADGET = 1
 local TYPE_POT = 2
-local TYPE_PLANT_SEED = 3
+local TYPE_FERTILIZER = 3
 
 local HEIGHT = 220 * gY_DIALATION
 local WIDTH = 220 * gX_DIALATION
@@ -32,9 +32,11 @@ function ShopItem:update(dt)
       self.heldDown = false
       self:assignCords()
       if self.intersecting then
-        self.remove = true
-        user.money = user.money - self.price
-        self:attach()
+          if user.money >= self.price then
+          self.remove = true
+          user.money = user.money - self.price
+          self:attach()
+        end
         self.intersecting.highlight = false
       end
     else 
@@ -63,22 +65,36 @@ function ShopItem:update(dt)
 end
 function ShopItem:render() 
   love.graphics.draw(self.sprite, self.x, self.y, 0, gX_DIALATION, gY_DIALATION)
+  love.graphics.setFont(INFO_FONT)
+  love.graphics.setColor(1,1,0)
+  love.graphics.print(self.price, self.x, self.y - 30)
+  love.graphics.setColor(1,1,1)
 end
 function ShopItem:assignCords() 
-  if self.itemSpot == 1 then
-    self.x = SHOP_WINDOW_DEFAULT_X + (72)
+  if self.itemType ~= TYPE_FERTILIZER then
+    if self.itemSpot == 1 then
+      self.x = SHOP_WINDOW_DEFAULT_X + (72)
+    else
+      self.x = SHOP_WINDOW_DEFAULT_X + ((72 + 72 + 220))
+    end
+    self.y = SHOP_WINDOW_DEFAULT_Y + (72)
   else
-    self.x = SHOP_WINDOW_DEFAULT_X + ((72 + 72 + 220))
+    if self.itemSpot == 1 then
+      self.x, self.y = 821, 774
+    elseif self.itemSpot == 2 then
+      self.x, self.y = 821 + 67, 774
+    else
+      self.x, self.y = 821 + 67 + 67, 774
+    end
   end
-  self.y = SHOP_WINDOW_DEFAULT_Y + (72)
 end
 function ShopItem:attach() 
   if self.itemType == TYPE_GADGET then
     user:attachGadget(self.createItem(user.pots[self.intersectionKey]), self.intersectionKey)
   elseif self.itemType == TYPE_POT then
     user:alterPot(self.intersectionKey, self.createItem(self.intersectionKey))
-  elseif self.itemType == TYPE_PLANT_SEED then
-    
+  elseif self.itemType == TYPE_FERTILIZER then
+    self:consume()
   else 
     print("there should not be this type of thingy this is a problem dude")
   end

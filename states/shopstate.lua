@@ -1,6 +1,11 @@
 require 'states.basestate'
 require 'shopitems.shopwindow'
 require 'button'
+require 'shopitems.fertilizers.attackFertilizer'
+require 'shopitems.fertilizers.hpFertilizer'
+require 'shopitems.fertilizers.cdFertilizer'
+
+
 
 ShopState = {}
 ShopState.__index = ShopState
@@ -20,7 +25,7 @@ function ShopState.new()
           gSTATE_MACHINE:changeState('fight')
         end, 'FIGHT???'
       , true),}
-  
+  instance.fertilizers = {AttackFertilizer.new(), HPFertilizer.new(), CDFertilizer.new()}
   return instance
 end
 
@@ -32,6 +37,10 @@ function ShopState:render()
   local potHeld = user:render()
 
   local shopItemHeld = self.window:render()
+  
+  for k, v in pairs(self.fertilizers) do
+    v:render()
+  end
   
   if potHeld then
     potHeld:render()
@@ -46,12 +55,10 @@ function ShopState:update(dt)
   for key, button in pairs(self.buttons) do
     button:update(dt)
   end
-  --[[for key, product in pairs(self.products) do 
-    product:update(dt)
-    if product.remove then
-      table.remove(self.products, key)
-    end
-  end]]
+
+  for k, v in pairs(self.fertilizers) do
+    v:update(dt)
+  end
   self.window:update(dt)
   user:update(dt)
 end

@@ -9,6 +9,8 @@ math.randomseed(os.time())
 
 DEFAULT_FONT = love.graphics.newFont(12)
 MONEY_FONT = love.graphics.newFont(40)
+HP_FONT = love.graphics.newFont(60)
+INFO_FONT = love.graphics.newFont(20)
 
 user = player:new(true)
 pots = { basicpot.new(4), basicpot.new(5), basicpot.new(6)}

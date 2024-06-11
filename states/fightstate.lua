@@ -11,6 +11,7 @@ local healthBuff = 0
 local attackBuff = 0
 local cdBuff = 0
 
+local wins = 0
 
 function FightState.new() 
   local instance = setmetatable({}, FightState)
@@ -46,6 +47,9 @@ function FightState:exit()
     attackBuff = (attackBuff * 1.1) + 2
     healthBuff = (healthBuff * 1.1) + 7
     cdBuff = (cdBuff * 1.1)
-    print(attackBuff, healthBuff, cdBuff)
+    wins = wins + 1
+    user.money = user.money + 3 + wins
+  else
+    user.money = user.money + 2 
   end
 end
